@@ -1,0 +1,88 @@
+1. Reverse a string
+import java.util.Scanner;
+
+public class StringReversal {
+    public static void main(String[] args)
+    {
+        System.out.println("Enter string to reverse:");
+
+        Scanner read = new Scanner(System.in);
+        String str = read.nextLine();
+        String reverse = "";
+
+
+        for(int i = str.length() - 1; i >= 0; i--)
+        {
+            reverse = reverse + str.charAt(i);
+        }
+
+        System.out.println("Reversed string is:"+reverse);
+        if(str.equals(reverse))
+        {
+            System.out.println("The given string is a Palindrome");
+        }
+        else
+        {
+            System.out.println("The given string is not a Palindrome");
+        }
+
+    }
+}
+
+
+2. Maximum of N numbers
+public static void main(String[] args) {
+    int smallest = 0;
+    int large = 0;
+    int num;
+    System.out.println("enter the number");//how many number you want to enter
+    Scanner input = new Scanner(System.in);
+    int n = input.nextInt();
+    num = input.nextInt();
+    smallest = num; //assume first entered number as small one
+    // i starts from 2 because we already took one num value
+    for (int i = 2; i < n; i++) {
+        num = input.nextInt();
+        //comparing each time entered number with large one
+        if (num > large) {
+            large = num;
+        }
+        //comparing each time entered number with smallest one
+        if (num < smallest) {
+            smallest = num;
+        }
+    }
+    System.out.println("the largest is:" + large);
+    System.out.println("Smallest no is : " + smallest);
+}
+
+3. Shape of Triangle
+
+public abstract class Shape {
+
+    public abstract double area();
+}
+
+public class Triangle extends Shape{
+    private final double a, b, c;
+
+    public Triangle(double a, double b, double c){
+        this.a=a;
+        this.b=b;
+        this.c=c;
+    }
+
+    @Override
+    public double area(){
+        //area of triangle is A=sqr.rt(s(s-a)*(s-b)*(s-c)
+        double s = (a + b + c) / 2;
+        double area= Math.sqrt(s * (s - a) * (s - b) * (s - c));
+        System.out.println("Area of triangle is "+area);
+        return area;
+    }
+
+    public static void main(String args[]){
+        Triangle triangle= new Triangle(10.02,11.05,20.07);
+        triangle.area();
+    }
+}

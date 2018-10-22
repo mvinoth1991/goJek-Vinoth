@@ -1,0 +1,71 @@
+The developers are rolling out a new version of the internet banking service and your role is to make
+sure that the services that was fixed still work as expected.
+The new version of internet banking has a few bug fixes on Funds Transfer service for local funds
+transfer. This is one of the fix that the new version of internet banking has.
+Your job is to make sure that the Funds transfer service is still working as expected and that the flow of
+transfer has not been disrupted in any way (Example: From logging into the bank site to completing a
+fund transfer and ensure all other functions are not affected). Assume that you are making a new fund
+transfer.Provide us with all possible validation test cases that you will be testing in an excel spreadsheet
+provided above.
+
+Areas to be focused:
+1. Feature testing on fund transfer
+2. Regression testing over the E2E functionality
+3. Security testing over the fund transfer
+4. Stress and load testing on payment interface when it faces heavy traffic
+5. Performance testing on payment interface
+
+Feature testing:
+1. Add a local beneficiary and verify transfer fund to the added beneficiary is successful
+2. Add a overseas beneficiary and verify transfer fund to the added beneficiary is successful
+3. Transfer fund to already added beneficiary and verify fund transfer is successful
+4. Transfer fund using one time fund transfer option and verify it is successful
+5. Make sure OTP is triggered for every transaction and verify the successful transaction if you enter valid OTP and failure if you enter invalid OTP
+6. Disable internet connection while doing fund transfer and verify amount is not detected from your account
+7. Transfer fund to a invalid account and verify the amount it returned back to the same account or verify the transaction failed
+8. Validate the API calls and verify by using developer tools whether the user details, account number and all personal information are masked 
+9. Verify whether we are receiving successful or failure messages both via mobile and email for all transactions
+10. Usecase where the transferrer has multiple bank accounts, the ui asks to choose the from bank account so verify after transfer the right account money is deducted
+11. Verify fund transfer to same bank account versus fund transfer to different local account of same bank
+12. Navigate to fund transfer page, wait until session is expired and then click on transfer fund button ensure that system redirects to login page and after login redirects to confirm transfer.
+13. Navigate to fund transfer page, and make backend service go down, in this case api should return 500 error code and upon clicking transfer fund proper error message should be displayed on UI
+14. Try to trasfer money from an account which is either closed/barred or blacklisted. It should not allow user to transfer
+
+Test cases for fund transfer:
+1. From Account amount should have minimum balance and as well as amount to be transfered. 
+2. Amount to be transferred should not be more than the From Account Total Balance. 
+3. Amount to be transferred should be at least 500 (depending upon requirements)
+4. Amount should not cross the daily transaction limit.
+
+Negative Scenario
+1. Make a transfer without passing anything in Amount.
+2. Amount can not have special character
+3. Amount can not have alphabets
+4. There should be no space between amount numbers.
+5. Transfer negative amount should not be allowed.
+
+End to End functionality scenarios:
+1. Login with valid user details-> Transfer amount to existing local beneficiary-> Verify transferred amount is detected-> Payment successful -> Got success message-> Logout
+2. Login with valid user details-> Transfer amount by adding new local beneficiary-> Verify transferred amount is detected-> Payment successful -> Got success message-> Logout 
+3. Login with invalid user details-> Validation error message as invalid username or password
+4. Login with valid user details-> Transfer amount by adding new overseas beneficiary-> Verify transferred amount is detected-> Payment successful -> Got success message-> Logout
+
+Impact Analysis:
+1. Hit the fund transfer and payment API by using more than 1000(based on product requirement) at a less rampup time and verify there is no performance degrade than before because of new bug fix.
+2. Verify other payment transfers like paying credit cards, one time transfer and transferring within same bank accounts are not impacted because of this change.
+
+Security/API testing:
+1. In login API pass invalid user credentials and verify it returns correct error response code
+2. After logging into internet banking copy the URL and try to hit in another browser to verify the session is not maintained
+3. After performing all the actions like login, transfer and logout; check the logs whether any user personal information is captured.
+4. Can try to test api, where you call fund transfer api with user A's authentication token then you try to give "FromAccount" value which belongs to UserB, in that case the api should return authorization error. Since user A should not be allowed to transfer money from userB account.
+
+Build verification test:
+1. After the fix has been deployed to the testing environment make sure existing automation suite is ran and no new failures are found
+2. Run smoke test to verify the build is stable and bug fix has not impacted the existing functionality
+
+Backend Validations:
+1. Verify the backend tables are created properly and updating of table columns are done as expected
+2. Verify the datatype, primary key constrains for tables or columns are following the standards
+3. Make sure after querying the data returned is matching with the front end
+4. Verify datatypes other than the one specified while designing the table is not accepted.
